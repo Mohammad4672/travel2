@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUBA 💛</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:Tahoma;
+    background:black;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* خلفية سينمائية */
+.glow{
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:rgba(255,77,166,0.2);
+    filter:blur(120px);
+    top:20%;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* البداية */
+.menu{
+    text-align:center;
+    z-index:5;
+}
+
+button{
+    padding:12px 20px;
+    margin:10px;
+    border:none;
+    border-radius:12px;
+    background:#ff4da6;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+}
+
+/* الرسالة */
+.card{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:20px;
+    max-width:600px;
+    text-align:center;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+p{
+    line-height:1.9;
+    font-size:18px;
+    white-space:pre-line;
+}
+
+/* السلايد شو */
+.slideshow{
+    display:none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.slideshow img{
+    width:350px;
+    height:350px;
+    object-fit:cover;
+    border-radius:15px;
+    box-shadow:0 0 40px rgba(255,77,166,0.3);
+    animation: fadeImg 2s ease;
+}
+
+@keyframes fadeImg{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.caption{
+    margin-top:15px;
+    color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<div class="menu">
+    <h2>💛 إلى رُبى</h2>
+    <button onclick="openMsg()">💌 Open Message</button>
+    <button onclick="openSlide()">📸 Memories</button>
+</div>
+
+<!-- الرسالة -->
+<div class="card" id="card">
+    <p id="text"></p>
+</div>
+
+<!-- السلايد -->
+<div class="slideshow" id="slide">
+    <img id="img" src="">
+    <div class="caption">💛 memories...</div>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const msg = `رُبى…
+ما بعرف إذا هالكلمات رح توصللك بنفس الشعور اللي جواتي، بس رح أكتبها كأنك عم تقريها بقلبي مش عالشاشة…
+
+قبل ما أسافر، حسّيت إنو في شي جواي عم ينكسر بهدوء… مش لأن السفر صعب، بس لان وجودك هو الأمان نفسه.
+
+إنتِ كنتي أكتر من شخص حلو بحياتي…
+كنتِ راحة، وطمأنينة، وضحكة بتطلع بدون سبب، واشتياق حتى وإنتِ موجودة.
+
+ما بعرف إذا رح تجمعنا الأيام مرة تانية أو لأ…
+بس بعرف إنو في جزء مني رح يضل واقف عندك، مهما راحت المسافات.
+
+إذا يوم حسّيتي إنو في شي ناقص، أو في لحظة هدوء غريبة… تذكري إنو في حدا بعيد، بس قلبه بعدو هون، عندك إنتِ.
+
+أنا ما بعرف شو اسم هالشعور… بس بعرف إنه صادق.
+وأكتر شي بيوجعني إني ما قلتلك كل شي بوقته.
+
+إذا كان في رجعة…
+بدي أرجع وأنا نفس الشخص، بس متأكد أكتر من شعوري فيكي 💛
+وتأكدي رح تضل نفس اللهفة عندي تجاهك
+ديري بالك عحالك يا قلبي وتأكدي
+انو محمد قد ما كان بعيد قلبو واحساسو
+رح يضلو عندك ورح يضل حدك  💛`;
+
+let i = 0;
+
+function typeWriter(){
+    if(i < msg.length){
+        document.getElementById("text").innerHTML += msg.charAt(i);
+        i++;
+        setTimeout(typeWriter, 35);
+    }
+}
+
+/* فتح الرسالة */
+function openMsg(){
+    document.querySelector(".menu").style.display="none";
+    document.getElementById("card").style.display="block";
+    document.getElementById("music").play();
+    typeWriter();
+}
+
+/* الصور */
+let images = [
+    "image1.JPG",
+    "image2.JPG",
+    "image3.JPG",
+    "image4.jpg"
+];
+
+let index = 0;
+let interval;
+
+function showImage(){
+    document.getElementById("img").src = images[index];
+}
+
+function nextImage(){
+    index = (index + 1) % images.length;
+    showImage();
+}
+
+function openSlide(){
+    document.querySelector(".menu").style.display="none";
+    document.getElementById("slide").style.display="flex";
+    document.getElementById("music").play();
+
+    showImage();
+
+    // سلايد تلقائي
+    interval = setInterval(nextImage, 3000);
+}
+
+</script>
+
+</body>
+</html>
