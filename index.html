@@ -71,6 +71,27 @@ button{
     text-align:center;
 }
 
+/* gallery (مخفي تماماً بالبداية) */
+.gallery{
+    display:none;
+    padding:60px 20px;
+    text-align:center;
+}
+
+/* images layout */
+.imgs{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.imgs img{
+    width:min(90%,400px);
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.5);
+}
+
 /* hearts */
 .hearts{
     position:fixed;
@@ -103,7 +124,6 @@ button{
 
 <body>
 
-<!-- hearts layer -->
 <div class="hearts"></div>
 
 <header>
@@ -123,12 +143,16 @@ button{
 
 </div>
 
+<!-- الصور مخفية -->
 <div class="gallery" id="gallery">
     <h2>💖 الصور</h2>
-    <img src="image1.JPG">
-    <img src="image2.JPG">
-    <img src="image3.JPG">
-    <img src="image4.jpg">
+
+    <div class="imgs">
+        <img src="image1.JPG">
+        <img src="image2.JPG">
+        <img src="image3.JPG">
+        <img src="image4.jpg">
+    </div>
 </div>
 
 <audio id="music" loop>
@@ -155,18 +179,15 @@ const msg = `رُبى…
 رح يضلو عندك ورح يضل حدك 💖`;
 
 let i = 0;
+const colors = ["💖","🤍","💜"];
 
-/* 💖 multi-color hearts */
-const heartColors = ["💖","🤍","💜"];
-
+/* hearts */
 function createHeart(){
     const container = document.querySelector(".hearts");
 
     const heart = document.createElement("div");
     heart.classList.add("heart");
-
-    // random color heart
-    heart.innerHTML = heartColors[Math.floor(Math.random()*heartColors.length)];
+    heart.innerHTML = colors[Math.floor(Math.random()*colors.length)];
 
     heart.style.left = Math.random()*100 + "vw";
     heart.style.fontSize = (Math.random()*10 + 14) + "px";
@@ -177,7 +198,7 @@ function createHeart(){
     setTimeout(()=>heart.remove(),6000);
 }
 
-/* ✍️ typing */
+/* typing */
 function typeWriter(){
     if(i < msg.length){
         document.getElementById("text").innerHTML += msg.charAt(i);
@@ -193,6 +214,7 @@ function typeWriter(){
     }
 }
 
+/* open message */
 function openMsg(){
     document.querySelector("header").style.display="none";
     document.getElementById("msgSection").style.display="block";
@@ -202,8 +224,9 @@ function openMsg(){
     typeWriter();
 }
 
-/* photos */
+/* show photos ONLY on click */
 function openPhotos(){
+    document.getElementById("gallery").style.display="block";
     document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
 }
 
