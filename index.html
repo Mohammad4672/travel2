@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUBA 💛</title>
+<title>RUBA 💖</title>
 
 <style>
 body{
@@ -14,9 +13,10 @@ body{
     overflow-x:hidden;
 
     background:
-    radial-gradient(circle at 20% 20%, rgba(255,182,193,0.6), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(255,223,186,0.6), transparent 40%),
-    linear-gradient(180deg, #0f0f1a, #1a1a2e);
+    radial-gradient(circle at 20% 20%, rgba(255,182,193,0.5), transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(173,216,230,0.4), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(221,160,221,0.35), transparent 50%),
+    linear-gradient(180deg, #0b0b14, #1a1a2e);
 
     color:white;
 }
@@ -28,7 +28,6 @@ header{
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    text-align:center;
 }
 
 h1{
@@ -40,14 +39,13 @@ button{
     padding:14px 24px;
     border:none;
     border-radius:14px;
-    background:linear-gradient(135deg,#ff4da6,#ff7ac3);
+    background:linear-gradient(135deg,#ff4da6,#c77dff);
     color:white;
     cursor:pointer;
     font-size:16px;
-    margin:8px;
 }
 
-/* sections */
+/* section */
 .section{
     padding:60px 20px;
     display:none;
@@ -55,6 +53,7 @@ button{
     margin:auto;
 }
 
+/* text */
 #text{
     white-space:pre-line;
     line-height:2.3;
@@ -62,64 +61,70 @@ button{
     background:rgba(255,255,255,0.08);
     padding:25px;
     border-radius:20px;
+    backdrop-filter:blur(10px);
 }
 
-/* buttons area */
+/* photos button */
 #photosBtn{
     display:none;
     margin-top:20px;
     text-align:center;
 }
 
-/* images hidden completely */
-.gallery{
-    display:none;
-    padding:60px 20px;
-    text-align:center;
-}
-
-.gallery img{
-    width:min(90%,400px);
-    border-radius:20px;
-    margin:15px 0;
-    box-shadow:0 15px 40px rgba(0,0,0,0.5);
-}
-
-/* nav */
-nav{
+/* hearts */
+.hearts{
     position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    display:none;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+}
+
+.heart{
+    position:absolute;
+    font-size:18px;
+    animation:floatHeart linear forwards;
+    opacity:0.9;
+}
+
+@keyframes floatHeart{
+    from{
+        transform:translateY(100vh) scale(0.8);
+        opacity:0;
+    }
+    10%{opacity:1;}
+    to{
+        transform:translateY(-10vh) scale(1.2);
+        opacity:0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>💛 إلى رُبى</h1>
+<!-- hearts layer -->
+<div class="hearts"></div>
 
-    <!-- زر الرسالة -->
+<header>
+    <h1>💖 إلى رُبى</h1>
     <button onclick="openMsg()">💌 Open Message</button>
 </header>
 
-<!-- الرسالة -->
 <div class="section" id="msgSection">
+
     <div id="text"></div>
 
-    <!-- زر الصور (يظهر بعد الرسالة) -->
     <div id="photosBtn">
         <button onclick="openPhotos()">
-            📸 تركتلك كم صورة إلي إذا يوم اشتقتيلي 💛
+            📸 تركتلك كم صورة إلي إذا يوم اشتقتيلي 💖
         </button>
     </div>
+
 </div>
 
-<!-- الصور (مخفية بالبداية) -->
 <div class="gallery" id="gallery">
-    <h2>💛 الصور</h2>
+    <h2>💖 الصور</h2>
     <img src="image1.JPG">
     <img src="image2.JPG">
     <img src="image3.JPG">
@@ -143,29 +148,62 @@ const msg = `رُبى…
 أنا ما بعرف شو اسم هالشعور… بس بعرف إنه صادق.
 وأكتر شي بيوجعني إني ما قلتلك كل شي بوقته.
 إذا كان في رجعة…
-بدي أرجع وأنا نفس الشخص، بس متأكد أكتر من شعوري فيكي 💛
+بدي أرجع وأنا نفس الشخص، بس متأكد أكتر من شعوري فيكي 💖
 وتأكدي رح تضل نفس اللهفة عندي تجاهك
 ديري بالك عحالك يا قلبي وتأكدي
 انو محمد قد ما كان بعيد قلبو واحساسو
-رح يضلو عندك ورح يضل حدك 💛`;
+رح يضلو عندك ورح يضل حدك 💖`;
+
+let i = 0;
+
+/* 💖 multi-color hearts */
+const heartColors = ["💖","🤍","💜"];
+
+function createHeart(){
+    const container = document.querySelector(".hearts");
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    // random color heart
+    heart.innerHTML = heartColors[Math.floor(Math.random()*heartColors.length)];
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (Math.random()*10 + 14) + "px";
+    heart.style.animationDuration = (Math.random()*3 + 3) + "s";
+
+    container.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),6000);
+}
+
+/* ✍️ typing */
+function typeWriter(){
+    if(i < msg.length){
+        document.getElementById("text").innerHTML += msg.charAt(i);
+        i++;
+
+        if(i % 3 === 0){
+            createHeart();
+        }
+
+        setTimeout(typeWriter,25);
+    }else{
+        document.getElementById("photosBtn").style.display="block";
+    }
+}
 
 function openMsg(){
     document.querySelector("header").style.display="none";
     document.getElementById("msgSection").style.display="block";
 
-    document.getElementById("text").innerText = msg;
-
     document.getElementById("music").play().catch(()=>{});
 
-    // يظهر زر الصور بعد الرسالة
-    setTimeout(()=>{
-        document.getElementById("photosBtn").style.display="block";
-    }, 2000);
+    typeWriter();
 }
 
-/* زر الصور */
+/* photos */
 function openPhotos(){
-    document.getElementById("gallery").style.display="block";
     document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
 }
 
