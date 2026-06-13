@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -15,41 +16,9 @@ body{
     background:
     radial-gradient(circle at 20% 20%, rgba(255,182,193,0.6), transparent 40%),
     radial-gradient(circle at 80% 30%, rgba(255,223,186,0.6), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.9), transparent 50%),
     linear-gradient(180deg, #0f0f1a, #1a1a2e);
 
     color:white;
-}
-
-/* ⭐ stars layer */
-.stars{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
-    z-index:0;
-}
-
-.star{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    opacity:0.8;
-    animation:floatStar linear infinite;
-}
-
-@keyframes floatStar{
-    from{
-        transform:translateY(100vh);
-        opacity:0;
-    }
-    10%{opacity:1;}
-    to{
-        transform:translateY(-10vh);
-        opacity:0;
-    }
 }
 
 /* header */
@@ -60,11 +29,9 @@ header{
     align-items:center;
     flex-direction:column;
     text-align:center;
-    position:relative;
-    z-index:2;
 }
 
-header h1{
+h1{
     font-size:30px;
     color:#ffb6c1;
 }
@@ -77,9 +44,7 @@ button{
     color:white;
     cursor:pointer;
     font-size:16px;
-    box-shadow:0 10px 25px rgba(255,77,166,0.3);
-    position:relative;
-    z-index:2;
+    margin:8px;
 }
 
 /* sections */
@@ -88,8 +53,6 @@ button{
     display:none;
     max-width:800px;
     margin:auto;
-    position:relative;
-    z-index:2;
 }
 
 #text{
@@ -99,23 +62,20 @@ button{
     background:rgba(255,255,255,0.08);
     padding:25px;
     border-radius:20px;
-    backdrop-filter:blur(10px);
 }
 
-/* photos button */
+/* buttons area */
 #photosBtn{
     display:none;
     margin-top:20px;
     text-align:center;
 }
 
-/* gallery */
+/* images hidden completely */
 .gallery{
     display:none;
     padding:60px 20px;
     text-align:center;
-    position:relative;
-    z-index:2;
 }
 
 .gallery img{
@@ -132,37 +92,32 @@ nav{
     left:50%;
     transform:translateX(-50%);
     display:none;
-    z-index:2;
-}
-
-nav button{
-    margin:5px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- stars -->
-<div class="stars"></div>
-
 <header>
     <h1>💛 إلى رُبى</h1>
-    <button onclick="start()">ابدئي القراءة 💌</button>
+
+    <!-- زر الرسالة -->
+    <button onclick="openMsg()">💌 Open Message</button>
 </header>
 
+<!-- الرسالة -->
 <div class="section" id="msgSection">
-
     <div id="text"></div>
 
+    <!-- زر الصور (يظهر بعد الرسالة) -->
     <div id="photosBtn">
-        <button onclick="openGallery()">
+        <button onclick="openPhotos()">
             📸 تركتلك كم صورة إلي إذا يوم اشتقتيلي 💛
         </button>
     </div>
-
 </div>
 
+<!-- الصور (مخفية بالبداية) -->
 <div class="gallery" id="gallery">
     <h2>💛 الصور</h2>
     <img src="image1.JPG">
@@ -170,11 +125,6 @@ nav button{
     <img src="image3.JPG">
     <img src="image4.jpg">
 </div>
-
-<nav id="nav">
-    <button onclick="scrollToMsg()">الرسالة</button>
-    <button onclick="scrollToGallery()">الصور</button>
-</nav>
 
 <audio id="music" loop>
     <source src="music.mp3">
@@ -199,56 +149,25 @@ const msg = `رُبى…
 انو محمد قد ما كان بعيد قلبو واحساسو
 رح يضلو عندك ورح يضل حدك 💛`;
 
-function start(){
+function openMsg(){
     document.querySelector("header").style.display="none";
     document.getElementById("msgSection").style.display="block";
-    document.getElementById("gallery").style.display="block";
-    document.getElementById("nav").style.display="block";
 
     document.getElementById("text").innerText = msg;
 
+    document.getElementById("music").play().catch(()=>{});
+
+    // يظهر زر الصور بعد الرسالة
     setTimeout(()=>{
         document.getElementById("photosBtn").style.display="block";
     }, 2000);
-
-    document.getElementById("music").play().catch(()=>{});
 }
 
-function openGallery(){
+/* زر الصور */
+function openPhotos(){
+    document.getElementById("gallery").style.display="block";
     document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
 }
-
-function scrollToMsg(){
-    document.getElementById("msgSection").scrollIntoView({behavior:"smooth"});
-}
-
-function scrollToGallery(){
-    document.getElementById("gallery").scrollIntoView({behavior:"smooth"});
-}
-
-/* ⭐ stars animation */
-function createStars(){
-    const container = document.querySelector(".stars");
-
-    for(let i=0;i<60;i++){
-        let star = document.createElement("div");
-        star.classList.add("star");
-
-        star.style.left = Math.random()*100 + "vw";
-        star.style.top = Math.random()*100 + "vh";
-
-        let size = Math.random()*2 + 1;
-        star.style.width = size + "px";
-        star.style.height = size + "px";
-
-        star.style.animationDuration = (Math.random()*5 + 3) + "s";
-        star.style.animationDelay = Math.random()*5 + "s";
-
-        container.appendChild(star);
-    }
-}
-
-createStars();
 
 </script>
 
